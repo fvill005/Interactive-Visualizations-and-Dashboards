@@ -1,11 +1,6 @@
-
-
-
-function init() {
-  
-    //reading in the data from the json file
+  //reading in the data from the json file
     //using oject.entries to add a key value an pair to the meta panel
-    function updateMetadata(sample) {
+    function updatemetadata(sample) {
     d3.json("data/samples.json").then((data) => {
         var metadata = data.metadata;
         var filterArray = metadata.filter(sampleObject => sampleObject.id == sample);
@@ -19,8 +14,7 @@ function init() {
     });
   }
   
-  
-  function updateCharts(sample) {    
+  function update_charts(sample) {    
    //importing data from json file
    //filtering the array and declaring var to build plots
 
@@ -82,33 +76,33 @@ function init() {
     });
   }
   
-   // updating and fetching new data when a different value is selected in the drop down 
-  function dropdownmenu(newID) {
-   updateCharts(newID);
-    updateMetadata(newID);
-  }
+  function init() {
 
- 
-    // Select the dropdown element
-    var selector = d3.select("#selDataset");
+  // Select the dropdown element
+  var selector = d3.select("#selDataset");
     
-    // add IDs to the dropdown from the list of sample Names
-      d3.json("data/samples.json").then((data) => {
-        var subject_Ids = data.names;
-        subject_Ids.forEach((id) => {
-          selector
-          .append("option")
-          .text(id)
-          .property("value", id);
-        });
-      
-      // Use the first subject ID from the names to build initial plots
-      var firstID = subject_Ids[0];
-      updateCharts(firstID);
-      updateMetadata(firstID);
-    });
+  // add IDs to the dropdown from the list of sample Names
+    d3.json("data/samples.json").then((data) => {
+      var subject_Ids = data.names;
+      subject_Ids.forEach((id) => {
+        selector
+        .append("option")
+        .text(id)
+        .property("value", id);
+      });
+    
+    // Use the first subject ID from the names to build initial plots
+    var firstID = subject_Ids[0];
+    update_charts(firstID);
+    updatemetadata(firstID);
+  });
+
+  // updating and fetching new data when a different value is selected in the drop down 
   }
-  
+  function optionChanged(newID) {
+    update_charts(newID);
+     updatemetadata(newID);
+   }
   // Initialize the dashboard
   init();
 
